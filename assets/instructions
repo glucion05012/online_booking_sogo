@@ -1,0 +1,6 @@
+copy build, dist and plugins to your project public folder
+copy index to your new blade as a guide for your layout
+change links and scripts with href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}"
+cut content and replace to home.blade.php
+add @yield('content')
+change @extends('layouts.admin')

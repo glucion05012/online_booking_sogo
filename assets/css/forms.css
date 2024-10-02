@@ -1,0 +1,47 @@
+.create-form{
+    width: 90%;
+    margin: auto;
+
+    border: 2px solid gray;
+    padding: 2em;
+}
+
+.create-form input, i{
+    margin-bottom: 20px;
+}
+
+.custom-select {
+    margin-bottom: 20px;
+}
+
+.input-group{
+    margin-bottom: 20px;
+}
+
+.create-form button{
+    margin-top: 20px;
+}
+
+.fa-eye-slash:before {
+    cursor: pointer;
+}
+
+.create-form button{
+    width: 30%;
+}
+
+.errormsg{
+color: red;
+}
+
+.successmsg{
+color: green;
+}
+
+/* disable link */
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: gray;
+    opacity: 0.5;
+  }
