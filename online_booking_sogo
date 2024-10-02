@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Oct 02, 2024 at 05:13 AM
--- Server version: 10.6.18-MariaDB-cll-lve
--- PHP Version: 8.1.29
+-- Host: 127.0.0.1:3307
+-- Generation Time: Oct 02, 2024 at 03:44 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -49,7 +49,8 @@ CREATE TABLE `booking` (
 INSERT INTO `booking` (`id`, `name`, `email`, `phone`, `adults`, `children`, `checkin`, `checkout`, `branch_id`, `room_id`, `promo_code`, `notes`, `reference`, `status`, `amount`, `bookingdate`, `checkindate`, `checkoutdate`) VALUES
 (1, 'jos', 'jcabungan@gmail.com', '', NULL, NULL, '9/1/2023', '9/8/2023', '1', '2', NULL, '', '9AVZJB', '4', '7,000', 'August 31, 2023 9:06:am  ', '', ''),
 (2, 'josh test book', 'jcabungan@gmail.com', '09617836446', NULL, NULL, '9/5/2024', '9/7/2024', '1', '6', NULL, '', 'IPZVAM', '4', '2,920', 'September 2, 2024 5:01:pm  ', '', ''),
-(3, 'Jose Riza', 'jrex1811@gmail.com', '09123456789', NULL, NULL, '9/5/2024', '9/5/2024', '1', '7', NULL, '', 'YEBAF0', '1', '1,500', 'September 3, 2024 12:08:pm  ', 'September 4, 2024 4:01:pm  ', '');
+(3, 'Jose Riza', 'jrex1811@gmail.com', '09123456789', NULL, NULL, '9/5/2024', '9/5/2024', '1', '7', NULL, '', 'YEBAF0', '1', '1,500', 'September 3, 2024 12:08:pm  ', 'September 4, 2024 4:01:pm  ', ''),
+(5, 'Giddel Lucion', 'giddel.lucion@gmail.com', '923 240 5324', NULL, NULL, '10/3/2024', '10/3/2024', '9', '30', NULL, '', '7TR5QB', '0', '1,660', 'October 2, 2024 9:37:pm  ', '', '');
 
 -- --------------------------------------------------------
 
@@ -1084,7 +1085,7 @@ INSERT INTO `room_calendar` (`id`, `room_id`, `date`, `quantity`, `status`) VALU
 (803, '18', '9/24/2024', '50', '1'),
 (804, '18', '9/29/2024', '50', '1'),
 (805, '18', '9/26/2024', '50', '1'),
-(806, '18', '10/3/2024', '50', '1'),
+(806, '18', '10/3/2024', '49', '1'),
 (807, '18', '9/30/2024', '50', '1'),
 (808, '18', '9/25/2024', '50', '1'),
 (809, '18', '9/27/2024', '50', '1'),
@@ -1623,7 +1624,7 @@ INSERT INTO `room_calendar` (`id`, `room_id`, `date`, `quantity`, `status`) VALU
 (1342, '154', '9/18/2024', '50', '1'),
 (1343, '30', '9/25/2024', '50', '1'),
 (1344, '30', '9/24/2024', '50', '1'),
-(1345, '30', '10/3/2024', '50', '1'),
+(1345, '30', '10/3/2024', '49', '1'),
 (1346, '30', '9/30/2024', '50', '1'),
 (1347, '30', '10/1/2024', '50', '1'),
 (1348, '30', '9/29/2024', '50', '1'),
@@ -6206,6 +6207,33 @@ INSERT INTO `room_calendar` (`id`, `room_id`, `date`, `quantity`, `status`) VALU
 (5921, '172', '10/29/2024', '50', '1'),
 (5922, '172', '10/28/2024', '50', '1');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int(20) NOT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `username` varchar(200) DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
+  `type` varchar(200) DEFAULT NULL COMMENT 'Branch Manager, Room Reservations, Super Admin',
+  `branch_id` varchar(200) DEFAULT NULL,
+  `status` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `name`, `username`, `password`, `type`, `branch_id`, `status`) VALUES
+(1, 'Cubao Manager', 'bmcubao', '1234', 'Branch Manager', '9', '1'),
+(2, 'Cubao Staff', 'rrcubao', '1234', 'Room Reservations', '9', '1'),
+(3, 'Avenida Manager', 'bmavenida', '1234', 'Branch Manager', '2', '1'),
+(4, 'Avenida Staff', 'rravenida', '1234', 'Room Reservations', '2', '1'),
+(5, 'Superadmin', 'admin', 'admin', 'Super Admin', '0', '1');
+
 --
 -- Indexes for dumped tables
 --
@@ -6235,6 +6263,12 @@ ALTER TABLE `room_calendar`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -6242,7 +6276,7 @@ ALTER TABLE `room_calendar`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `reason_cancel`
@@ -6261,4 +6295,10 @@ ALTER TABLE `room`
 --
 ALTER TABLE `room_calendar`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5923;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
