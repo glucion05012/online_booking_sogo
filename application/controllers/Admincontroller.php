@@ -6,12 +6,53 @@
             $this->load->model('Admin_model');
         }
 
+        public function index(){
+            $this->form_validation->set_rules('username', 'Username',
+            'required');
+            $this->form_validation->set_rules('password', 'Password',
+                    'required');
+
+            if($this->form_validation->run() === FALSE){
+                $this->load->view('login');
+            }else{
+                if($this->login_model->login()) {
+                    $data['users'] =  $this->login_model->login();
+                
+                    $_SESSION['name'] = $data['users'][0]['name'];
+                    $_SESSION['type'] = $user_id = ($data['users'][0]['type']);
+                    $_SESSION['branch_id'] = $user_id = ($data['users'][0]['branch_id']);
+
+               
+                    redirect('dashboard');
+                }     
+                else{
+                    $this->session->set_flashdata('errormsg', 'No User found!');
+
+                    $this->load->view('login');
+                } 
+            } 
+        }
+
+        public function logout(){
+            unset($_SESSION['name']);
+            unset($_SESSION['type']);
+            unset($_SESSION['branch_id']);
+            $this->load->view('login');
+        }
+
+
         public function dashboard(){
-            $data['branches'] =  $this->Admin_model->branches();
+            if(isset($_SESSION['name'])){
+                $data['branches'] =  $this->Admin_model->branches();
             
-            $this->load->view('admin/templates/header', $data);
-            $this->load->view('admin/dashboard');
-            $this->load->view('admin/templates/footer');
+                $this->load->view('admin/templates/header', $data);
+                $this->load->view('admin/dashboard');
+                $this->load->view('admin/templates/footer');
+            }else{
+                $this->load->view('login');
+            }
+
+           
         }
 
         public function calendar(){

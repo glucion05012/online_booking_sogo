@@ -51,13 +51,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     </ul>
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item d-none d-sm-inline-block">
-        <i class="fas fa-user-tie nav-icon"></i>
-        &nbsp; <?php 
-        if (isset($_SESSION['branch_name'])) {
-          echo $_SESSION['branch_name'];
-        } 
-        ?>
+      <li class="dropdown user user-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <i class="fas fa-user-tie nav-icon"></i>
+          <?php 
+                foreach($branches as $bl){
+                  if($bl['id'] == $_SESSION['branch_id']){
+                    echo $_SESSION['name'] . ' - ' . $bl['name'];
+                  }
+                }
+          ?>
+        </a>
+        <ul class="dropdown-menu">
+          <li class="user-footer">
+            <div class="pull-right">
+              <a href="<?php echo base_url(); ?>admincontroller/logout" class="btn btn-default btn-flat">Sign out</a>
+            </div>
+          </li>
+        </ul>
       </li>
     </ul>
   </nav>
@@ -80,35 +91,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-item">
+          <li class="nav-item">
             <select name="branches" id="branches" class="form-control" onchange="branchChange()">
                 <option value="" selected disabled>-- SELECT --</option>
                 <?php foreach($branches as $bl) : ?>
-                     <!--<option value="<?= $bl['id']; ?>" ><?= $bl['name']; ?></option> -->
                     <option <?= $bl['id'] == $_SESSION['branch_id'] ? 'selected=""' : '' ?> value="<?php echo $bl['id']; ?>" ><?php echo $bl['name']; ?></option>
                 <?php endforeach; ?>
             </select>
           </li>
-         <br>
+          <br>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="fas fa-calendar nav-icon"></i>
-              <p>
-                Bookings
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<?php echo base_url(); ?>admin/bookings" class="nav-link" class="nav-link active">
-                  <p>Active Bookings</p>
-                </a>
-                <a href="<?php echo base_url(); ?>admin/history" class="nav-link" class="nav-link active">
-                  <p>Booking History</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          <a href="#" class="nav-link active">
+            <i class="fas fa-calendar nav-icon"></i>
+            <p>
+              Bookings
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?php echo base_url(); ?>admin/bookings" class="nav-link" class="nav-link active">
+                <p>Active Bookings</p>
+              </a>
+              <a href="<?php echo base_url(); ?>admin/history" class="nav-link" class="nav-link active">
+                <p>Booking History</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <?php if($_SESSION['type'] != 'Room Reservations'):  ?>
           <li class="nav-item">
                 <a href="<?php echo base_url(); ?>admin/manage_rooms" class="nav-link" class="nav-link active">
                   <i class="fas fa-bed nav-icon"></i>
@@ -121,6 +132,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Inventory Calendar</p>
                 </a>
           </li>
+        <?php endif; ?>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -130,7 +142,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                    
   <script>
+        
+        if("<?php echo $_SESSION['type']; ?>" == "Super Admin"){
+          $('#branches').attr("disabled", false);
+        }else{
+          $('#branches').attr("disabled", true);
+        }
+
       function branchChange() {
+
+
         // alert(name);
         var branch_id = $('#branches').find(":selected").val();
         var branch_name = $('#branches').find(":selected").text();
