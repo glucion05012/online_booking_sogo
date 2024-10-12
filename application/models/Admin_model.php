@@ -24,6 +24,7 @@ class Admin_model extends CI_Model{
         $query = $this->db->query("SELECT
         a.id,
         b.id as `branch_id`,
+        b.name as `branch_name`,
         c.id as `room_id`,
         a.bookingdate,
         a.checkindate,

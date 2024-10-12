@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/OnlineBooking';
+// $config['base_url'] = 'http://192.168.0.37/OnlineBooking';
 // $config['base_url'] = 'https://hotelsogo.com/online_booking_sogo';
 
 // $config['base_url'] = 'https://hotelsogo.com/public/OnlineBooking';
