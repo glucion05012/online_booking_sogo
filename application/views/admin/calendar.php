@@ -180,15 +180,13 @@
                             location.reload();
                         }, 
                         error: function(err) {
-                        
+                            location.reload();
                         }
                     });
                     date.setDate(date.getDate() + 1);
                 }
-
             }
-            
-        location.reload();
+            location.reload();
         })
     <?php endforeach; ?>
 

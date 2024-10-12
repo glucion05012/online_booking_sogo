@@ -104,8 +104,8 @@
         public function allocate(){
             $data['allocate'] =  $this->Admin_model->allocate_room();
 
-            $url = $_SERVER['HTTP_REFERER'];
-            redirect($url);
+            // $url = $_SERVER['HTTP_REFERER'];
+            // redirect($url);
         }
         
         public function update_room($id){
