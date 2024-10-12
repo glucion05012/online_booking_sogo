@@ -122,7 +122,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
             <select name="branches" id="branches" class="form-control" onchange="branchChange()">
-                <option value="" selected disabled>-- SELECT --</option>
+                <option value="all" selected disabled>-- SELECT --</option>
                 <option <?= $_SESSION['branch_id'] == 'all' ? 'selected=""' : '' ?> value="all" >ALL BRANCHES</option>
                 <?php foreach($branches as $bl) : ?>
                     <option <?= $bl['id'] == $_SESSION['branch_id'] ? 'selected=""' : '' ?> value="<?php echo $bl['id']; ?>" ><?php echo $bl['name']; ?></option>
@@ -180,7 +180,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
 
       function branchChange() {
-
 
         // alert(name);
         var branch_id = $('#branches').find(":selected").val();
