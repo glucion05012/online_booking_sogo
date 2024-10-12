@@ -187,7 +187,15 @@ class Admin_model extends CI_Model{
             'reason' => $this->input->post('reasonCancel')
         );
         
-        return $this->db->insert('reason_cancel', $data);
+        $this->db->insert('reason_cancel', $data);
+
+        //add number of days to the room
+        $room_id = $this->input->post('room_id');
+        $this->db->query("UPDATE room_calendar set quantity=(quantity+1) where room_id = '$room_id' and (date BETWEEN '$date_from' AND '$date_to')");
+
+        $query = $this->db->query("SELECT * FROM booking where id = $booking_id");
+        return $query->result_array();
+
         
     }
 

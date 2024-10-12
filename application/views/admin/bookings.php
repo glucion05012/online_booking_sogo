@@ -138,6 +138,7 @@
 
                    <h1>Reason for Cancellation</h1>
                    <input type="hidden" name="booking_id" value="<?php echo $bk['id'];?>" >
+                   <input type="hidden" name="room_id" value="<?php echo $bk['room_id'];?>" >
                    <textarea name="reasonCancel" rows="5" cols="35" style="width: 95%" class="form-control" ></textarea>
                     
                 </div>
