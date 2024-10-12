@@ -164,6 +164,13 @@
             redirect($url);
         }
 
+        public function recheckin(){
+            
+            $data['checkinBooking'] =  $this->Admin_model->recheckinBooking();
+            $url = $_SERVER['HTTP_REFERER'];
+            redirect($url);
+        }
+
         public function checkout(){
             
             $data['checkoutBooking'] =  $this->Admin_model->checkoutBooking();

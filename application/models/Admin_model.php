@@ -191,6 +191,8 @@ class Admin_model extends CI_Model{
 
         //add number of days to the room
         $room_id = $this->input->post('room_id');
+        $date_from = date('n/j/Y', strtotime($this->input->post('checkin')));
+        $date_to = date('n/j/Y', strtotime($this->input->post('checkout')));
         $this->db->query("UPDATE room_calendar set quantity=(quantity+1) where room_id = '$room_id' and (date BETWEEN '$date_from' AND '$date_to')");
 
         $query = $this->db->query("SELECT * FROM booking where id = $booking_id");
@@ -215,6 +217,31 @@ class Admin_model extends CI_Model{
         
     }
 
+    public function recheckinBooking(){
+        $booking_id = $this->input->post('booking_id');
+        
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('F j, Y g:i:a  ');
+
+        $data = array(
+            'status' => 1,
+            'checkindate' => $date_now,
+        );
+
+        $this->db->where('id', $booking_id);
+        $this->db->update('booking', $data);
+
+        //minus number of days to the room
+        $room_id = $this->input->post('room_id');
+        $date_from = date('n/j/Y', strtotime($this->input->post('checkin')));
+        $date_to = date('n/j/Y', strtotime($this->input->post('checkout')));
+        $this->db->query("UPDATE room_calendar set quantity=(quantity-1) where room_id = '$room_id' and (date BETWEEN '$date_from' AND '$date_to')");
+
+        $query = $this->db->query("SELECT * FROM booking where id = $booking_id");
+        return $query->result_array();
+        
+    }
+
     public function checkoutBooking(){
         $booking_id = $this->input->post('booking_id');
         
@@ -227,7 +254,16 @@ class Admin_model extends CI_Model{
         );
 
         $this->db->where('id', $booking_id);
-        return $this->db->update('booking', $data);
+        $this->db->update('booking', $data);
+
+        //add number of days to the room
+        $room_id = $this->input->post('room_id');
+        $date_from = date('n/j/Y', strtotime($this->input->post('checkin')));
+        $date_to = date('n/j/Y', strtotime($this->input->post('checkout')));
+        $this->db->query("UPDATE room_calendar set quantity=(quantity+1) where room_id = '$room_id' and (date BETWEEN '$date_from' AND '$date_to')");
+
+        $query = $this->db->query("SELECT * FROM booking where id = $booking_id");
+        return $query->result_array();
         
     }
 }

@@ -333,6 +333,9 @@
                    <h1>Checkout Guest: <br><div style="color:red"><?php echo $bk['name'];?></div><br>
                    Reference No. <br><div style="color:red"><?php echo $bk['reference'];?></div></h1>
                    <input type="hidden" name="booking_id" value="<?php echo $bk['id'];?>" >
+                   <input type="hidden" name="room_id" value="<?php echo $bk['room_id'];?>" >
+                   <input type="hidden" name="checkin" value="<?php echo $bk['checkin'];?>" >
+                   <input type="hidden" name="checkout" value="<?php echo $bk['checkout'];?>" >
                 </div>
 
                 </div>
