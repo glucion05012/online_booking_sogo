@@ -123,7 +123,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item">
             <select name="branches" id="branches" class="form-control" onchange="branchChange()">
                 <option value="" selected disabled>-- SELECT --</option>
-                <option value="all">ALL BRANCHES</option>
+                <option <?= $_SESSION['branch_id'] == 'all' ? 'selected=""' : '' ?> value="all" >ALL BRANCHES</option>
                 <?php foreach($branches as $bl) : ?>
                     <option <?= $bl['id'] == $_SESSION['branch_id'] ? 'selected=""' : '' ?> value="<?php echo $bl['id']; ?>" ><?php echo $bl['name']; ?></option>
                 <?php endforeach; ?>
