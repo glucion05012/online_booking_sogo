@@ -377,7 +377,12 @@
         var table = $('#myTable').DataTable( {
             dom: 'Bflrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'copy', 'csv', 'excel', 'print',
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL'
+                }
             ],
             orderCellsTop: true,
             fixedHeader: true,
