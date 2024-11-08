@@ -58,8 +58,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
 <!-- JQUERY ALERT -->
-<script src="<?php echo base_url()."assets/"; ?>js/jAlert.js" type="text/javascript"></script>
-<link rel="stylesheet" href="<?php echo base_url()."assets/"; ?>css/jAlert.css" />
+<!-- <script src="<?php echo base_url()."assets/"; ?>js/jAlert.js" type="text/javascript"></script>
+<link rel="stylesheet" href="<?php echo base_url()."assets/"; ?>css/jAlert.css" /> -->
 
 </head>
 <body class="hold-transition sidebar-mini">
