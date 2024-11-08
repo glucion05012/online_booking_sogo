@@ -162,6 +162,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Inventory Calendar</p>
                 </a>
           </li>
+
+          <?php if($_SESSION['type'] == 'Super Admin'):  ?>
+            <li class="nav-item">
+                  <a href="<?php echo base_url(); ?>admin/users" class="nav-link" class="nav-link active">
+                    <i class="fas fa-user nav-icon"></i>
+                    <p>Users</p>
+                  </a>
+            </li>
+          <?php endif; ?>
         <?php endif; ?>
         </ul>
       </nav>

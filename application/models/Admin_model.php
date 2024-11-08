@@ -266,6 +266,44 @@ class Admin_model extends CI_Model{
         return $query->result_array();
         
     }
+
+    public function user_list(){
+        $query = $this->db->query("SELECT * FROM users");
+        return $query->result_array();
+    }
+
+    public function updateUser($id){
+        $data = array(
+            'name' => $this->input->post('name'),
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+            'type' => $this->input->post('type'),
+            'branch_id' => $this->input->post('branch_id'),
+            'status' => $this->input->post('status'),
+        );
+
+        $this->db->where('user_id', $id);
+        return $this->db->update('users', $data);
+    }
+
+    public function deleteUser($id){
+        $query = $this->db->query("DELETE from users where user_id = $id");
+        return true;
+    }
+
+    public function addUser(){
+        $data = array(
+            'name' => $this->input->post('name'),
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+            'type' => $this->input->post('type'),
+            'branch_id' => $this->input->post('branch_id'),
+            'status' => $this->input->post('status'),
+        );
+
+        return $this->db->insert('users', $data);
+    }
+    
 }
 
 ?>

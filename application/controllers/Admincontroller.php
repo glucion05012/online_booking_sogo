@@ -177,5 +177,35 @@
             $url = $_SERVER['HTTP_REFERER'];
             redirect($url);
         }
+
+        public function user(){
+            $data['branches'] =  $this->Admin_model->branches();
+            $data['rooms'] =  $this->Admin_model->rooms();
+            $data['booking'] =  $this->Admin_model->booking();
+            $data['user_list'] =  $this->Admin_model->user_list();
+            
+            $this->load->view('admin/templates/header', $data);
+            $this->load->view('admin/user', $data);
+            $this->load->view('admin/templates/footer');
+        }
+
+        public function addUser(){
+            $this->Admin_model->addUser();
+            $url = $_SERVER['HTTP_REFERER'];
+            redirect($url);
+        }
+
+        public function updateUser($id){
+            
+            $data['updateUser'] =  $this->Admin_model->updateUser($id);
+            $url = $_SERVER['HTTP_REFERER'];
+            redirect($url);
+        }
+
+        public function deleteUser($id){
+            $this->Admin_model->deleteUser($id);
+            $url = $_SERVER['HTTP_REFERER'];
+            redirect($url);
+        }
        
 }
