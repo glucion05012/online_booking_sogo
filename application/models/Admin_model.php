@@ -24,6 +24,7 @@ class Admin_model extends CI_Model{
         $query = $this->db->query("SELECT
         a.id,
         b.id as `branch_id`,
+        b.name as `branch_name`,
         c.id as `room_id`,
         a.bookingdate,
         a.checkindate,
@@ -186,7 +187,17 @@ class Admin_model extends CI_Model{
             'reason' => $this->input->post('reasonCancel')
         );
         
-        return $this->db->insert('reason_cancel', $data);
+        $this->db->insert('reason_cancel', $data);
+
+        //add number of days to the room
+        $room_id = $this->input->post('room_id');
+        $date_from = date('n/j/Y', strtotime($this->input->post('checkin')));
+        $date_to = date('n/j/Y', strtotime($this->input->post('checkout')));
+        $this->db->query("UPDATE room_calendar set quantity=(quantity+1) where room_id = '$room_id' and (date BETWEEN '$date_from' AND '$date_to')");
+
+        $query = $this->db->query("SELECT * FROM booking where id = $booking_id");
+        return $query->result_array();
+
         
     }
 
@@ -206,6 +217,31 @@ class Admin_model extends CI_Model{
         
     }
 
+    public function recheckinBooking(){
+        $booking_id = $this->input->post('booking_id');
+        
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('F j, Y g:i:a  ');
+
+        $data = array(
+            'status' => 1,
+            'checkindate' => $date_now,
+        );
+
+        $this->db->where('id', $booking_id);
+        $this->db->update('booking', $data);
+
+        //minus number of days to the room
+        $room_id = $this->input->post('room_id');
+        $date_from = date('n/j/Y', strtotime($this->input->post('checkin')));
+        $date_to = date('n/j/Y', strtotime($this->input->post('checkout')));
+        $this->db->query("UPDATE room_calendar set quantity=(quantity-1) where room_id = '$room_id' and (date BETWEEN '$date_from' AND '$date_to')");
+
+        $query = $this->db->query("SELECT * FROM booking where id = $booking_id");
+        return $query->result_array();
+        
+    }
+
     public function checkoutBooking(){
         $booking_id = $this->input->post('booking_id');
         
@@ -218,9 +254,56 @@ class Admin_model extends CI_Model{
         );
 
         $this->db->where('id', $booking_id);
-        return $this->db->update('booking', $data);
+        $this->db->update('booking', $data);
+
+        //add number of days to the room
+        $room_id = $this->input->post('room_id');
+        $date_from = date('n/j/Y', strtotime($this->input->post('checkin')));
+        $date_to = date('n/j/Y', strtotime($this->input->post('checkout')));
+        $this->db->query("UPDATE room_calendar set quantity=(quantity+1) where room_id = '$room_id' and (date BETWEEN '$date_from' AND '$date_to')");
+
+        $query = $this->db->query("SELECT * FROM booking where id = $booking_id");
+        return $query->result_array();
         
     }
+
+    public function user_list(){
+        $query = $this->db->query("SELECT * FROM users");
+        return $query->result_array();
+    }
+
+    public function updateUser($id){
+        $data = array(
+            'name' => $this->input->post('name'),
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+            'type' => $this->input->post('type'),
+            'branch_id' => $this->input->post('branch_id'),
+            'status' => $this->input->post('status'),
+        );
+
+        $this->db->where('user_id', $id);
+        return $this->db->update('users', $data);
+    }
+
+    public function deleteUser($id){
+        $query = $this->db->query("DELETE from users where user_id = $id");
+        return true;
+    }
+
+    public function addUser(){
+        $data = array(
+            'name' => $this->input->post('name'),
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+            'type' => $this->input->post('type'),
+            'branch_id' => $this->input->post('branch_id'),
+            'status' => $this->input->post('status'),
+        );
+
+        return $this->db->insert('users', $data);
+    }
+    
 }
 
 ?>

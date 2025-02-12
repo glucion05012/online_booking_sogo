@@ -176,19 +176,18 @@
                         , dataType: 'json'
                         , crossOrigin: false
                         , success: function(res) {
-                            alert('Room Allocation successfully created.');
-                            location.reload();
+                            // alert('Room Allocation successfully created.');
+                            console.log(res)
                         }, 
                         error: function(err) {
-                        
+                            location.reload();
                         }
                     });
                     date.setDate(date.getDate() + 1);
                 }
-
+                
+                alert('Room Allocation successfully created.');
             }
-            
-        location.reload();
         })
     <?php endforeach; ?>
 

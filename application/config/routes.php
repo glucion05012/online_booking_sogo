@@ -14,3 +14,5 @@ $route['admin/manage_rooms'] = 'admincontroller/manage_rooms';
 $route['admin/calendar'] = 'admincontroller/calendar';
 $route['admin/bookings'] = 'admincontroller/bookings';
 $route['admin/history'] = 'admincontroller/history';
+
+$route['admin/users'] = 'admincontroller/user';

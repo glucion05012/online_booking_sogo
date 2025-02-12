@@ -18,11 +18,10 @@
         </thead>
         <tbody>
             <?php foreach($booking as $bk) : ?>
-                
-                <?php if($bk['branch_id'] == $_SESSION['branch_id']) : ?>
+                <?php if($_SESSION['branch_id'] == 'all') : ?>
                     <?php if($bk['status'] == 0 || $bk['status'] == 1) : ?>
                         <tr class="table-active"> 
-                            <td><?php echo $bk['id']; ?></td>
+                            <td><?php echo $bk['branch_name']; ?></td>
                             <td><?php echo $bk['reference']; ?></td>
                             <td><?php echo $bk['bookingdate']; ?></td>
                             <td><?php echo $bk['name']; ?></td>
@@ -57,19 +56,63 @@
                                     }
                                 ?>
                             <td>
-                                <?php if($bk['status'] != 4 && $bk['status'] != 1 && $bk['status'] != 2) : ?>
-                                    <button type="button" data-toggle='modal' data-target='#cancelModal-<?php echo $bk['id']; ?>' value='<?php echo $bk['id']; ?>' class="btn btn-danger"><span class="fa fa-ban" style="color: #FFF"></span> Cancel</button>
-                                <?php endif; ?>
-                                <?php if($bk['status'] != 1) : ?>
-                                    <button type="button" data-toggle='modal' data-target='#checkinModal-<?php echo $bk['id']; ?>' value='<?php echo $bk['id']; ?>' class="btn btn-success"><span class="fa fa-check" style="color: #FFF"></span> Check-in</button>
-                                <?php endif; ?>
-                                <?php if($bk['status'] != 0 && $bk['status'] != 2 && $bk['status'] != 4) : ?>
-                                    <button type="button" data-toggle='modal' data-target='#checkoutModal-<?php echo $bk['id']; ?>' value='<?php echo $bk['id']; ?>' class="btn btn-danger"><span class="fa fa-exit" style="color: #FFF"></span> Check-out</button>
-                                <?php endif; ?>
-                                    <button type="button" data-toggle='modal' data-target='#infoModal-<?php echo $bk['id']; ?>' value='<?php echo $bk['id']; ?>' class="btn btn-info"><span class="fa fa-info" style="color: #FFF"></span> Info</button>
-                                
+                                <button type="button" data-toggle='modal' data-target='#infoModal-<?php echo $bk['id']; ?>' value='<?php echo $bk['id']; ?>' class="btn btn-info"><span class="fa fa-info" style="color: #FFF"></span> Info</button>
                             </td>
                         </tr>   
+                    <?php endif; ?>
+                <?php else : ?>
+                    <?php if($bk['branch_id'] == $_SESSION['branch_id']) : ?>
+                        <?php if($bk['status'] == 0 || $bk['status'] == 1) : ?>
+                            <tr class="table-active"> 
+                                <td><?php echo $bk['id']; ?></td>
+                                <td><?php echo $bk['reference']; ?></td>
+                                <td><?php echo $bk['bookingdate']; ?></td>
+                                <td><?php echo $bk['name']; ?></td>
+                                <td><?php echo $bk['room_name']; ?></td>
+                                <td><?php echo $bk['checkin']; ?></td>
+                                <td><?php echo $bk['checkout']; ?></td>
+                                <td><?php 
+                                            $datetime1 = new DateTime($bk['checkin']);
+                                            $datetime2 = new DateTime($bk['checkout']);
+                                            $difference = $datetime1->diff($datetime2);
+                                            
+                                            if($difference->d == 0)
+                                                echo 1;
+                                            else{
+                                                echo $difference->d;
+                                            } 
+                                    
+                                ?></td>
+                                <td><?php echo $bk['promo_code']; ?></td>
+                                <td><?php echo $bk['amount']; ?></td>
+                                <?php 
+                                        if($bk['status'] == 0){
+                                            echo '<td style="background-color:lightgreen">Active</td>';
+                                        }elseif($bk['status'] == 1){
+                                            echo '<td style="background-color:#FED8B1">Checked-in</td>';
+                                        }elseif($bk['status'] == 2){
+                                            echo '<td style="background-color:#FFCCCB ">Checked-out</td>';
+                                        }elseif($bk['status'] == 4){
+                                            echo '<td style="background-color:red">Cancelled</td>';
+                                        }else{
+                                            echo $bk['status'];
+                                        }
+                                    ?>
+                                <td>
+                                    <?php if($bk['status'] != 4 && $bk['status'] != 1 && $bk['status'] != 2) : ?>
+                                        <button type="button" data-toggle='modal' data-target='#cancelModal-<?php echo $bk['id']; ?>' value='<?php echo $bk['id']; ?>' class="btn btn-danger"><span class="fa fa-ban" style="color: #FFF"></span> Cancel</button>
+                                    <?php endif; ?>
+                                    <?php if($bk['status'] != 1) : ?>
+                                        <button type="button" data-toggle='modal' data-target='#checkinModal-<?php echo $bk['id']; ?>' value='<?php echo $bk['id']; ?>' class="btn btn-success"><span class="fa fa-check" style="color: #FFF"></span> Check-in</button>
+                                    <?php endif; ?>
+                                    <?php if($bk['status'] != 0 && $bk['status'] != 2 && $bk['status'] != 4) : ?>
+                                        <button type="button" data-toggle='modal' data-target='#checkoutModal-<?php echo $bk['id']; ?>' value='<?php echo $bk['id']; ?>' class="btn btn-danger"><span class="fa fa-exit" style="color: #FFF"></span> Check-out</button>
+                                    <?php endif; ?>
+                                        <button type="button" data-toggle='modal' data-target='#infoModal-<?php echo $bk['id']; ?>' value='<?php echo $bk['id']; ?>' class="btn btn-info"><span class="fa fa-info" style="color: #FFF"></span> Info</button>
+                                    
+                                </td>
+                            </tr>   
+                        <?php endif; ?>
                     <?php endif; ?>
                 <?php endif; ?>
             <?php endforeach; ?>
@@ -95,6 +138,9 @@
 
                    <h1>Reason for Cancellation</h1>
                    <input type="hidden" name="booking_id" value="<?php echo $bk['id'];?>" >
+                   <input type="hidden" name="room_id" value="<?php echo $bk['room_id'];?>" >
+                   <input type="hidden" name="checkin" value="<?php echo $bk['checkin'];?>" >
+                   <input type="hidden" name="checkout" value="<?php echo $bk['checkout'];?>" >
                    <textarea name="reasonCancel" rows="5" cols="35" style="width: 95%" class="form-control" ></textarea>
                     
                 </div>
@@ -289,6 +335,9 @@
                    <h1>Checkout Guest: <br><div style="color:red"><?php echo $bk['name'];?></div><br>
                    Reference No. <br><div style="color:red"><?php echo $bk['reference'];?></div></h1>
                    <input type="hidden" name="booking_id" value="<?php echo $bk['id'];?>" >
+                   <input type="hidden" name="room_id" value="<?php echo $bk['room_id'];?>" >
+                   <input type="hidden" name="checkin" value="<?php echo $bk['checkin'];?>" >
+                   <input type="hidden" name="checkout" value="<?php echo $bk['checkout'];?>" >
                 </div>
 
                 </div>
@@ -306,3 +355,39 @@
     <?php endforeach; ?>
     <!-- END MODAL FOR CHECKOUT -->
 </div>
+
+<script>
+    $( document ).ready(function() {
+        // Setup - add a text input to each footer cell
+        $('#myTable thead tr').clone(true).appendTo( '#myTable thead' );
+        $('#myTable thead tr:eq(1) th').each( function (i) {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    
+            $( 'input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+    
+        var table = $('#myTable').DataTable( {
+            dom: 'Bflrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'print',
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL'
+                }
+            ],
+            orderCellsTop: true,
+            fixedHeader: true,
+            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+            
+        } );
+    });
+</script>
